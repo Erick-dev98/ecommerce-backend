@@ -2,13 +2,13 @@ const port = 4000;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");  // Enable us to use token
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
 
 app.use(express.json());
-app.use(cors());
+app.use(cors());    // To connect the backend with the frontend
 
 //Database Connection with MongoDb
 mongoose.connect("mongodb+srv://emutua680:0768@cluster0.m5z1fk1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/e-commerce");
@@ -39,7 +39,7 @@ app.post("/upload",upload.single('product'),(req,res)=>{
     })
 })
 
-// Schema for Creating Products
+// Schema for Creating Products using mongoose library
 const Product = mongoose.model("Product",{
     id:{
         type: Number,
@@ -251,6 +251,15 @@ app.post('/removefromcart',fetchUser,async (req,res)=>{
     await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
     res.send("Removed")
 })
+
+// Creating endpoint to get cart data
+app.post('/getcart',fetchUser, async (req,res)=>{
+    console.log("GetCart");
+    let userData = await Users.findOne({_id:req.user.id});
+    res.json(userData.cartData);
+})
+
+// Creating endpoint for proceeding to checkout 
 
 app.listen(port,(error)=>{
     if (!error) {
