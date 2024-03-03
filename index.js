@@ -260,6 +260,65 @@ app.post('/getcart',fetchUser, async (req,res)=>{
 })
 
 // Creating endpoint for proceeding to checkout 
+// Schema for order model
+const Order = mongoose.model("Order", {
+    email: {
+        type: String,
+        required: true,
+    },
+    address: {
+        type: String,
+        required: true,
+    },
+    phone: {
+        type: String,
+        required: true,
+    },
+    paymentMethod: {
+        type: String,
+        required: true,
+    },
+    products: {
+        type: Array,
+        required: true,
+    },
+    totalAmount: {
+        type: Number,
+        required: true,
+    },
+    date: {
+        type: Date,
+        default: Date.now,
+    },
+});
+
+// Endpoint for submitting an order
+app.post("/placeorder", async (req, res) => {
+    try {
+        const { email, address, phone, paymentMethod, products, totalAmount } = req.body;
+
+        // Create a new order instance
+        const order = new Order({
+            email,
+            address,
+            phone,
+            paymentMethod,
+            products,
+            totalAmount,
+        });
+
+        // Save the order to the database
+        await order.save();
+
+        // Respond with success message
+        res.json({ success: true, message: "Order placed successfully" });
+    } catch (error) {
+        // Handle errors
+        console.error("Error placing order:", error);
+        res.status(500).json({ success: false, error: "Failed to place order" });
+    }
+});
+
 
 app.listen(port,(error)=>{
     if (!error) {
