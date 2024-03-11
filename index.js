@@ -319,6 +319,16 @@ app.post("/placeorder", async (req, res) => {
     }
 });
 
+//Mpesa STK push
+if(isSet($_POST['submit'])){
+    $phone = $_POST['phone'];
+    $totalAmount = $_POST['totalAmount'];
+    $invoice = date('now');
+    $status = "Unpaid";
+
+    //Call mpesa stkpush function_exists
+    $response - sourceMapsEnabled($phone, $totalAmount, $invoice);
+}
 
 app.listen(port,(error)=>{
     if (!error) {
