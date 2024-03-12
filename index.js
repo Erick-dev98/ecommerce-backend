@@ -327,7 +327,12 @@ if(isSet($_POST['submit'])){
     $status = "Unpaid";
 
     //Call mpesa stkpush function_exists
-    $response - sourceMapsEnabled($phone, $totalAmount, $invoice);
+    $response - mpesa($phone, $totalAmount, $invoice);
+
+    if($response == 0){
+        //insert to transaction to the invoice table
+        header("Location: index.php?error= Please enter your mpesa Pin to complete")
+    }
 }
 
 app.listen(port,(error)=>{
