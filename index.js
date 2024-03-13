@@ -8,7 +8,13 @@ const path = require("path");
 const cors = require("cors");
 
 app.use(express.json());
-app.use(cors());    // To connect the backend with the frontend
+app.use(cors(
+    {
+        origin:["https://vercel.com/ericks-projects-14892ef9/ecommerce-backend"],
+        methods: ["POST", "GET"],
+        credentials: true
+    }
+));    // To connect the backend with the frontend
 
 //Database Connection with MongoDb
 mongoose.connect("mongodb+srv://emutua680:0768@cluster0.m5z1fk1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/e-commerce");
@@ -319,21 +325,21 @@ app.post("/placeorder", async (req, res) => {
     }
 });
 
-//Mpesa STK push
-if(isSet($_POST['submit'])){
-    $phone = $_POST['phone'];
-    $totalAmount = $_POST['totalAmount'];
-    $invoice = date('now');
-    $status = "Unpaid";
+// //Mpesa STK push
+// if(isSet($_POST['submit'])){
+//     $phone = $_POST['phone'];
+//     $totalAmount = $_POST['totalAmount'];
+//     $invoice = date('now');
+//     $status = "Unpaid";
 
-    //Call mpesa stkpush function_exists
-    $response - mpesa($phone, $totalAmount, $invoice);
+//     //Call mpesa stkpush function_exists
+//     $response - mpesa($phone, $totalAmount, $invoice);
 
-    if($response == 0){
-        //insert to transaction to the invoice table
-        header("Location: index.php?error= Please enter your mpesa Pin to complete")
-    }
-}
+//     if($response == 0){
+//         //insert to transaction to the invoice table
+//         header("Location: index.php?error= Please enter your mpesa Pin to complete")
+//     }
+// }
 
 app.listen(port,(error)=>{
     if (!error) {
