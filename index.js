@@ -10,7 +10,7 @@ const cors = require("cors");
 app.use(express.json());
 app.use(cors(
     {
-        origin:["https://vercel.com/ericks-projects-14892ef9/ecommerce-backend"],
+        origin:["https://ecommerce-frontend-one-virid.vercel.app"],
         methods: ["POST", "GET"],
         credentials: true
     }
